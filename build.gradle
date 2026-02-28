@@ -3,33 +3,36 @@ plugins {
     id 'maven-publish'
 }
 
-version = "1.0.0"
-group = "feather.finch"
-archivesBaseName = "minemd"
+version = project.mod_version
+group = project.maven_group
 
 repositories {
-    mavenCentral()
-    maven { url "https://maven.fabricmc.net" }
-    maven { url "https://maven.shedaniel.me" }
+    maven { url "https://maven.shedaniel.me" } // Для Cloth Config/REI
+    maven { url "https://jitpack.io" }          // Для сторонних модов типа VulkanMod
     maven { url "https://maven.terraformersmc.com" }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.20.1"
-    mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.15.7"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.92.0+1.20.1"
-}
+    // Основное
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-loom {
-    // Автоматическая генерация рефмапа для миксинов
-    mixin {
-        defaultRefmapName = "featherfinch-refmap.json"
-    }
+    // API
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Зависимость для VulkanMod (чтобы WorldRendererMixin не ругался на отсутствие класса)
+    // Если ты используешь локальный файл, замени на: modImplementation files('libs/vulkanmod.jar')
+    compileOnly "com.github.CaffeineMC:vulkanmod:v0.4.5" 
+
+    // Миксины
+    annotationProcessor "org.spongepowered:mixin:0.8.5"
 }
 
 processResources {
     inputs.property "version", project.version
+    filteringCharset "UTF-8"
+
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
@@ -37,13 +40,10 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 17
-    it.options.encoding = "UTF-8"
 }
 
 java {
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
