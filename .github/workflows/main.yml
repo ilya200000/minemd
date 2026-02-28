@@ -17,12 +17,8 @@ jobs:
           cache: 'gradle'
 
       - name: Fix Permissions
-        # Эта команда дает права на запуск файла gradlew
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: |
-          ./gradlew build --no-daemon --stacktrace \
-          -Djava.net.preferIPv4Stack=true \
-          -Dorg.gradle.internal.http.connectionTimeout=120000 \
-          -Dorg.gradle.internal.http.socketTimeout=120000
+        # Ограничиваем метаданные, чтобы не было конфликтов версий
+        run: ./gradlew build --no-daemon --stacktrace
