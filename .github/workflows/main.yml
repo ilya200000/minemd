@@ -16,8 +16,11 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Build with Gradle (Fix Network)
-        # Форсируем IPv4 и увеличиваем таймауты для JitPack
+      - name: Fix Permissions
+        # Эта команда дает права на запуск файла gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
         run: |
           ./gradlew build --no-daemon --stacktrace \
           -Djava.net.preferIPv4Stack=true \
