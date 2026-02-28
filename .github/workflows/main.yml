@@ -1,0 +1,42 @@
+name: FeatherFinch CI (4D Vulkan Build)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Build Mod with Gradle
+        run: ./gradlew build
+        env:
+          # Если VulkanMod тянется через JitPack, GitHub может потребовать токен для лимитов, 
+          # но обычно для публичных репозиториев это не нужно.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload FeatherFinch Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FeatherFinch-4D-Build
+          # Путь к собранному файлу в папке build/libs
+          path: build/libs/*.jar
+          retention-days: 7
