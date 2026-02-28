@@ -10,6 +10,8 @@
     "FrustumMixin",
     "BlockMixin"
   ],
+  "client": [
+  ],
   "injectors": {
     "defaultRequire": 1
   }
