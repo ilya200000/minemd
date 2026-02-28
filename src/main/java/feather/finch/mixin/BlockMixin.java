@@ -1,6 +1,6 @@
 package feather.finch.mixin;
 
-import feather.finch.block.FoldAnchorBlock; // ПРОВЕРЬ ЭТОТ ИМПОРТ!
+import feather.finch.block.FoldAnchorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -12,10 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Block.class)
 public class BlockMixin {
-    // Добавлен remap = true и проверь, совпадает ли сигнатура метода с твоей версией MC
+    /**
+     * Делаем FoldAnchorBlock прозрачным для движка игры, 
+     * чтобы через него можно было рендерить внутренности терема.
+     */
     @Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
     private void featherFinch$anchorIsTranslucent(BlockState state, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        // Обязательно убедись, что FoldAnchorBlock импортирован выше!
         if ((Object)state.getBlock() instanceof FoldAnchorBlock) {
             cir.setReturnValue(true);
         }
