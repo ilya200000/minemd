@@ -1,5 +1,4 @@
 plugins {
-    // Обновляем Loom до стабильной версии 1.7
     id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
 }
@@ -16,19 +15,14 @@ repositories {
 }
 
 dependencies {
-    // Minecraft 1.20.1
     minecraft "com.mojang:minecraft:1.20.1"
     mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
     modImplementation "net.fabricmc:fabric-loader:0.15.7"
-
-    // Fabric API
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.92.0+1.20.1"
 }
 
-// Настройка Mixin для новых версий Loom
 loom {
-    accessWidenerPath = file("src/main/resources/featherfinch.accesswidener")
-    
+    // Автоматическая генерация рефмапа для миксинов
     mixin {
         defaultRefmapName = "featherfinch-refmap.json"
     }
@@ -36,7 +30,6 @@ loom {
 
 processResources {
     inputs.property "version", project.version
-
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
