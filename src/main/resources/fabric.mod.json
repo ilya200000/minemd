@@ -1,38 +1,21 @@
 {
-	"schemaVersion": 1,
-	"id": "featherfinch",
-	"version": "${version}",
-	"name": "FeatherFinch",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/featherfinch/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"feather.finch.FeatherFinch"
-		],
-		"client": [
-			"feather.finch.FeatherFinchClient"
-		]
-	},
-	"mixins": [
-		"featherfinch.mixins.json",
-		{
-			"config": "featherfinch.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.18.4",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "featherfinch",
+  "version": "${version}",
+  "name": "FeatherFinch 4D",
+  "description": "Architectural folding and 4D space pocket dimensions.",
+  "authors": ["YourName"],
+  "contact": { "homepage": "https://github.com" },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [ "feather.finch.FeatherFinchMod" ]
+  },
+  "mixins": [
+    "featherfinch.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "~1.20.1"
+  }
 }
